@@ -55,4 +55,14 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.6") // Manejo del ciclo de vida
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3") // Corrutinas
+    implementation("com.squareup.retrofit2:retrofit:2.11.0") // Consumo de API
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0") // Conversión JSON
+    implementation("io.coil-kt:coil-compose:2.2.2") // Carga de imágenes
+
+    implementation("androidx.navigation:navigation-runtime-ktx:2.7.7") // Navegación runtime
+    implementation("androidx.navigation:navigation-compose:2.7.7") // Navegación Compose
 }
