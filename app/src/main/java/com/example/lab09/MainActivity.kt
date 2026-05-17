@@ -17,7 +17,21 @@ import com.example.lab09.ui.theme.Lab09Theme
 import androidx.navigation.compose.rememberNavController
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material3.*
 
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.navigation.NavHostController
+
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,12 +43,82 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+@Composable
+fun Contenido(
+    pv: PaddingValues,
+    navController: NavHostController,
+    servicio: PostApiService
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(pv)
+    ) {
+        NavHost(
+            navController = navController,
+            startDestination = "inicio" // Ruta de inicio
+        ) {
+            composable("inicio") { ScreenInicio() }
+
+            composable("posts") { ScreenPosts(navController, servicio) }
+            composable("postsVer/{id}", arguments = listOf(
+                navArgument("id") { type = NavType.IntType} )
+            ) {
+                ScreenPost(navController, servicio, it.arguments!!.getInt("id"))
+            }
+        }
+    }
+}
+
+@Composable
+fun ScreenInicio() {
+
+    Text("INICIO")
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BarraSuperior() {
+    CenterAlignedTopAppBar(
+        title = {
+            Text(
+                text = "JSONPlaceHolder Access",
+                color = Color.White,
+                fontWeight = FontWeight.Bold
+            )
+        },
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primary
+        )
+    )
+}
+
+@Composable
+fun BarraInferior(navController: NavHostController) {
+    NavigationBar(
+        containerColor = Color.LightGray
+    ) {
+        NavigationBarItem(
+            icon = { Icon(Icons.Outlined.Home, contentDescription = "Inicio") },
+            label = { Text("Inicio") },
+            selected = navController.currentDestination?.route == "inicio",
+            onClick = { navController.navigate("inicio") }
+        )
+        NavigationBarItem(
+            icon = { Icon(Icons.Outlined.Favorite, contentDescription = "Posts") },
+            label = { Text("Posts") },
+            selected = navController.currentDestination?.route == "posts",
+            onClick = { navController.navigate("posts") }
+        )
+    }
+}
 
 @Composable
 fun ProgPrincipal9() {
     val urlBase = "https://json-placeholder.mock.beeceptor.com/"
     val retrofit = Retrofit.Builder().baseUrl(urlBase)
         .addConverterFactory(GsonConverterFactory.create()).build()
+    val servicio = retrofit.create(PostApiService::class.java)
     val navController = rememberNavController()
 
     Scaffold(
