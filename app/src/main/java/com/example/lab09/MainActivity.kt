@@ -59,12 +59,25 @@ fun Contenido(
             startDestination = "inicio" // Ruta de inicio
         ) {
             composable("inicio") { ScreenInicio() }
+            composable("characters") {
+                ScreenCharacters(
+                    navController,
+                    servicio
+                )
+            }
+            composable("characterDetail/{id}",
+                arguments = listOf(
+                    navArgument("id") {
+                        type = NavType.IntType
+                    }
+                )
 
-            composable("posts") { ScreenPosts(navController, servicio) }
-            composable("postsVer/{id}", arguments = listOf(
-                navArgument("id") { type = NavType.IntType} )
             ) {
-                ScreenPost(navController, servicio, it.arguments!!.getInt("id"))
+                ScreenCharacter(
+                    navController,
+                    servicio,
+                    it.arguments!!.getInt("id")
+                )
             }
         }
     }
@@ -105,9 +118,9 @@ fun BarraInferior(navController: NavHostController) {
         )
         NavigationBarItem(
             icon = { Icon(Icons.Outlined.Favorite, contentDescription = "Posts") },
-            label = { Text("Posts") },
+            label = { Text("Characters") },
             selected = navController.currentDestination?.route == "posts",
-            onClick = { navController.navigate("posts") }
+            onClick = { navController.navigate("characters") }
         )
     }
 }
