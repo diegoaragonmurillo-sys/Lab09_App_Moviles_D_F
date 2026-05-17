@@ -72,7 +72,6 @@ fun Contenido(
 
 @Composable
 fun ScreenInicio() {
-
     Text("INICIO")
 }
 
@@ -128,11 +127,3 @@ fun ProgPrincipal9() {
     )
 }
 
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Lab09Theme {
-        Greeting("Android")
-    }
-}
