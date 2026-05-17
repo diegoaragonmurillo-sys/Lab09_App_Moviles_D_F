@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
 fun Contenido(
     pv: PaddingValues,
     navController: NavHostController,
-    servicio: PostApiService
+    servicio: CharacterApiService
 ) {
     Box(
         modifier = Modifier
@@ -114,10 +114,10 @@ fun BarraInferior(navController: NavHostController) {
 
 @Composable
 fun ProgPrincipal9() {
-    val urlBase = "https://json-placeholder.mock.beeceptor.com/"
+    val urlBase = "https://rickandmortyapi.com/api/"
     val retrofit = Retrofit.Builder().baseUrl(urlBase)
         .addConverterFactory(GsonConverterFactory.create()).build()
-    val servicio = retrofit.create(PostApiService::class.java)
+    val servicio = retrofit.create(CharacterApiService::class.java)
     val navController = rememberNavController()
 
     Scaffold(
